@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<title>Demo</title>
+	<style>
+		h1 {
+			font-size: 2rem;
+			border-bottom: solid 3px #4caf93;
+		}
+		h2 {
+			font-size: 1.6rem;
+			border-bottom: solid 1px #4caf93;
+		}
+		p {
+			padding-left: 30px;
+			color: red;
+		}
+		table {
+			border-spacing: 0;
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		table th {
+			background-color: rgba(76, 175, 147, 0.175);
+		}
+		table th, td {
+			padding: 5px;
+			width: 300px;
+		}
+	</style>
+</head>
+<body>
+	<h1>【ユーザー情報】データ検索</h1>
+	<th:block th:if="${errMsg != null}">
+		<p th:text="${errMsg}" />
+	</th:block>
+	<form>
+		<input type="button" value="戻る" onClick="submit_menu(this.form);" />
+		<input type="button" value="検索" onClick="submit_search(this.form);" />
+		<input type="button" value="新規登録" onClick="submit_regist(this.form);" />
+		<input type="hidden" name="id" />
+		<input type="hidden" name="mode" />
+		<table border="1">
+			<thead>
+				<tr>
+					<th>-</th>
+					<th>ID</th>
+					<th>名前</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${tblUserInfoList}" th:object="${user}" class="align-middle">
+					<td align="center">
+						<button th:onclick="|submit_update(this.form,'__${user.id}__')|">更新</button>
+						<button th:onclick="|submit_delete(this.form,'__${user.id}__')|">削除</button>
+					</td>
+					<td th:text="*{id}"></td>
+					<td th:text="*{name}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+<script>
+	function submit_menu(frm) {
+		frm.action = 'http://localhost:8080/demo/menu.init';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_search(frm) {
+		frm.action = 'http://localhost:8080/demo/search.search';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_regist(frm) {
+		frm.action = 'http://localhost:8080/demo/detail.init';
+		frm.method = 'post';
+		frm.id.value = '';
+		frm.mode.value = 'regist';
+		frm.submit();
+	}
+	function submit_update(frm,pId) {
+		frm.action = 'http://localhost:8080/demo/detail.init';
+		frm.method = 'post';
+		frm.id.value = pId;
+		frm.mode.value = 'update';
+		frm.submit();
+	}
+	function submit_delete(frm,pId) {
+		frm.action = 'http://localhost:8080/demo/detail.init';
+		frm.method = 'post';
+		frm.id.value = pId;
+		frm.mode.value = 'delete';
+		frm.submit();
+	}
+</script>
+</html>

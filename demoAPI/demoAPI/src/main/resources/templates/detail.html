@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<title>Demo</title>
+	<style>
+		h1 {
+			font-size: 2rem;
+			border-bottom: solid 3px #4caf93;
+		}
+		h2 {
+			font-size: 1.6rem;
+			border-bottom: solid 1px #4caf93;
+		}
+		p {
+			padding-left: 30px;
+			color: red;
+		}
+		table {
+			border-spacing: 0;
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		table th {
+			background-color: rgba(76, 175, 147, 0.175);
+		}
+		table th, td {
+			padding: 5px;
+			width: 300px;
+		}
+	</style>
+</head>
+<body>
+	<h1>【ユーザー情報】データ詳細
+		<th:block th:if="${mode == 'regist'}">
+			[新規登録]
+		</th:block>
+		<th:block th:if="${mode == 'update'}">
+			[更新]
+		</th:block>
+		<th:block th:if="${mode == 'delete'}">
+			[削除]
+		</th:block>
+		<th:block th:if="${mode == 'confirm'}">
+			[確認]
+		</th:block>
+	</h1>
+	<th:block th:if="${msg != null}">
+		<p th:text="${msg}" />
+	</th:block>
+	<th:block th:if="${errMsg != null}">
+		<p th:text="${errMsg}" />
+	</th:block>
+	<form>
+		<input type="button" value="戻る" onClick="submit_search(this.form);" />
+		<input type="hidden" th:value="${tblUserInfo.id}" name="id" />
+		<table border="1">
+			<thead>
+				<tr>
+					<th>項目</th>
+					<th>設定値</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>ID</th>
+					<td><input type="text" th:value="${tblUserInfo.id}" name="id" size="20" style="background: lilac" disabled/></td>
+				</tr>
+				<tr>
+					<th>パスワード</th>
+					<td><input type="text" th:value="${tblUserInfo.password}" name="password" size="20" th:readonly="${mode == 'delete' || mode == 'confirm'}" /></td>
+				</tr>
+				<tr>
+					<th>ユーザー名称</th>
+					<td><input type="text" th:value="${tblUserInfo.name}" name="name" size="20" th:readonly="${mode == 'delete' || mode == 'confirm'}" /></td>
+				</tr>
+				<tr>
+					<th>メールアドレス</th>
+					<td><input type="text" th:value="${tblUserInfo.mail}" name="mail" size="20" th:readonly="${mode == 'delete' || mode == 'confirm'}" /></td>
+				</tr>
+				<tr>
+					<th>住所</th>
+					<td><input type="text" th:value="${tblUserInfo.address}" name="address" size="20" th:readonly="${mode == 'delete' || mode == 'confirm'}" /></td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">
+						<th:block th:if="${mode == 'regist'}">
+							<input type="button" value="登録" onClick="submit_regist(this.form);" />
+						</th:block>
+						<th:block th:if="${mode == 'update'}">
+							<input type="button" value="更新" onClick="submit_update(this.form);" />
+						</th:block>
+						<th:block th:if="${mode == 'delete'}">
+							<input type="button" value="削除" onClick="submit_delete(this.form);" />
+						</th:block>
+						<th:block th:if="${mode == 'confirm'}">
+							<input type="button" value="戻る（再検索）" onClick="submit_search(this.form);" />
+						</th:block>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+<script>
+	function submit_search(frm) {
+		frm.action = 'http://localhost:8080/demo/search.init';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_regist(frm) {
+		frm.action = 'http://localhost:8080/demo/detail.regist';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_update(frm) {
+		frm.action = 'http://localhost:8080/demo/detail.update';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_delete(frm) {
+		frm.action = 'http://localhost:8080/demo/detail.delete';
+		frm.method = 'post';
+		frm.submit();
+	}
+	function submit_search(frm) {
+		frm.action = 'http://localhost:8080/demo/search.search';
+		frm.method = 'post';
+		frm.submit();
+	}
+</script>
+</html>
