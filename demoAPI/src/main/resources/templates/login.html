@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<title>Demo</title>
+	<style>
+		h1 {
+			font-size: 2rem;
+			border-bottom: solid 3px #4caf93;
+		}
+		h2 {
+			font-size: 1.6rem;
+			border-bottom: solid 1px #4caf93;
+		}
+		p {
+			padding-left: 30px;
+			color: red;
+		}
+		table {
+			border-spacing: 0;
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		table th {
+			background-color: rgba(76, 175, 147, 0.175);
+		}
+		table th, td {
+			padding: 5px;
+			width: 300px;
+		}
+	</style>
+</head>
+<body>
+	<h1>ログイン</h1>
+	<th:block th:if="${errMsg != null}">
+		<p th:text="${errMsg}" />
+	</th:block>
+	<form>
+		<table border="1">
+			<thead>
+				<tr>
+					<th colspan="2">ログイン</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>ID</th>
+					<td><input type="text" name="userId" size="20"/></td>
+				</tr>
+				<tr>
+					<th>パスワード</th>
+					<td><input type="password" name="password" size="20"/></td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center"><input type="button" value="ログイン" onClick="submit_(this.form);" /></th>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+<script>
+	function submit_(frm) {
+		frm.action = 'http://localhost:8080/demo/login.login';
+		frm.method = 'post';
+		frm.submit();
+	}
+</script>
+</html>
